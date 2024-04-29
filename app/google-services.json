@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "247348686590",
+    "project_id": "counselcolloquy",
+    "storage_bucket": "counselcolloquy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247348686590:android:ddf9a0743923e65dd9bfaf",
+        "android_client_info": {
+          "package_name": "com.inhouseproject.counselcolloquy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPXw-bLYG8f-027iIJLLgk3rSsI83oAQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
