@@ -1,14 +1,17 @@
 package com.inhouseproject.counselcolloquy;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.auth.FirebaseUser;
-
-
+import com.squareup.picasso.Picasso;
 
 
 public class CreateProfile extends AppCompatActivity{
@@ -34,7 +36,7 @@ public class CreateProfile extends AppCompatActivity{
     Button button;
     ImageView imageView;
     ProgressBar progressbar;
-    Uri uri;
+    Uri imageUri;
     UploadTask uploadTask;
 
     StorageReference storageReference;
@@ -47,9 +49,18 @@ public class CreateProfile extends AppCompatActivity{
     String currentUserId;
 
 
-    private static final int PIC_IMAGE = 1;
+    private static final int PICK_IMAGE = 1;
 
     private void uploadData() {
+
+    }
+    private String getFileExt(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
+
     }
 
 
@@ -87,10 +98,9 @@ public class CreateProfile extends AppCompatActivity{
 
         });
 
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            // Your code here
-        }
+
+
+
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +112,20 @@ public class CreateProfile extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            // Your code here
+            try{
+            if(requestCode== PICK_IMAGE||resultCode ==RESULT_OK || data!=null|data.getData()!=null){
+            imageUri = data.getData();
+
+                Picasso.get().load(imageUri).into(imageView);
+            }
+        }catch(Exception e){
+                Toast.makeText(this,"Error"+e,Toast.LENGTH_SHORT).show();
+            }
+        }
+
 
 
 
