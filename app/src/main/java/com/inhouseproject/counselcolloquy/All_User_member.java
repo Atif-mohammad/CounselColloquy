@@ -1,7 +1,7 @@
 package com.inhouseproject.counselcolloquy;
 
 public class All_User_member {
-    String name,uid,url;
+    String name,uid,url,prof;
 
     public All_User_member(){
 
@@ -31,4 +31,7 @@ public class All_User_member {
         this.url = url;
     }
 
+    public void setProf(String prof) {
+        this.prof = prof;
+    }
 }

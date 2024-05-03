@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CounselColloquy"
         tools:targetApi="31">
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
+        <activity android:name=".CreateProfile"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".MainActivity"

@@ -53,7 +53,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.squareup.picasso:picasso:2.71828")
-
+    implementation ("com.google.firebase:firebase-auth:21.0.1")
 
 
 
