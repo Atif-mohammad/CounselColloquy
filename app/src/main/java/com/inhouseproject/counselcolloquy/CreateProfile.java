@@ -12,9 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import android.net.Uri;
+import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,10 +32,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 
-public class CreateProfile extends AppCompatActivity{
 
-    EditText etname,etBio, etProfession,etEmail,etWeb;
+public class CreateProfile extends AppCompatActivity {
+
+    EditText etname, etBio, etProfession, etEmail, etWeb;
     Button button;
     ImageView imageView;
     ProgressBar progressbar;
@@ -48,24 +53,21 @@ public class CreateProfile extends AppCompatActivity{
 
     String currentUserId;
 
-
     private static final int PICK_IMAGE = 1;
 
     private void uploadData() {
 
     }
-    private String getFileExt(Uri uri){
+
+    private String getFileExt(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
-        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-
-
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_profile);
@@ -76,7 +78,7 @@ public class CreateProfile extends AppCompatActivity{
         etProfession = findViewById(R.id.et_profession_cp);
         etWeb = findViewById(R.id.et_web_cp);
         button = findViewById(R.id.btn_cp);
-        progressbar =findViewById(R.id.progressbar_cp);
+        progressbar = findViewById(R.id.progressbar_cp);
         member = new All_User_member();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -94,41 +96,29 @@ public class CreateProfile extends AppCompatActivity{
             public void onClick(View v) {
                 uploadData();
             }
-
-
         });
-
-
-
-
-
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setType("image");
+                intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivity(intent);
+                startActivityForResult(intent, PICK_IMAGE);
             }
         });
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            // Your code here
-            try{
-            if(requestCode== PICK_IMAGE||resultCode ==RESULT_OK || data!=null|data.getData()!=null){
-            imageUri = data.getData();
-
-                Picasso.get().load(imageUri).into(imageView);
-            }
-        }catch(Exception e){
-                Toast.makeText(this,"Error"+e,Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+                imageUri = data.getData();
+                Picasso.get().load(imageUri).into(imageView);
+            }
+        } catch (NullPointerException e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
